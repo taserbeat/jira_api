@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+server = "python manage.py runserver"
+
+[packages]
+importlib-metadata = "==1.7.0"
+django = "==3.1"
+djangorestframework = "==3.11.1"
+django-cors-headers = "==3.4.0"
+djangorestframework-simplejwt = "==4.1.2"
+djoser = "==2.0.3"
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3"
