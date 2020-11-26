@@ -3,7 +3,7 @@ Jiraのサンプルアプリ
 
 # 環境構築
 ```bash
-git clone <url>
+git clone https://github.com/taserbeat/jira_api.git
 cd jira_api
 ```
 
