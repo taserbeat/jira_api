@@ -1,7 +1,8 @@
 # jira_api
-Jiraのサンプルアプリ
+Sample application for Jira excepted to run on macOS or Linux.
 
-# 環境構築
+# Setup
+
 ```bash
 git clone https://github.com/taserbeat/jira_api.git
 cd jira_api
@@ -14,4 +15,10 @@ pipenv sync --dev
 
 ```bash
 bash generate_secretkey.sh 
+```
+
+# Run
+
+```bash
+pipenv run server
 ```
