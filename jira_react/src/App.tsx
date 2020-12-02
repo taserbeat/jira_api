@@ -1,11 +1,146 @@
-import React from 'react';
-import './App.css';
+import React, { useEffect } from 'react';
+import styles from './App.module.css';
+import { Grid, Avatar } from "@material-ui/core";
+import {
+  makeStyles,
+  createMuiTheme,
+  MuiThemeProvider,
+  Theme,
+} from "@material-ui/core/styles";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import PolymerIcon from "@material-ui/icons/Polymer";
 
-function App() {
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectLoginUser,
+  selectProfiles,
+  fetchAsyncGetMyProfile,
+  fetchAsyncGetProfiles,
+  fetchAsyncUpdateProfile,
+} from "./features/auth/authSlice";
+import {
+  fetchAsyncGetTasks,
+  fetchAsyncGetUsers,
+  fetchAsyncGetCategory,
+  selectEditedTask,
+  selectTasks,
+} from "./features/task/taskSlice";
+
+import TaskList from "./features/task/TaskList";
+import TaskForm from "./features/task/TaskForm";
+import TaskDisplay from "./features/task/TaskDisplay";
+
+import { AppDispatch } from "./app/store";
+
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: "#3cb371",
+    },
+  },
+});
+const useStyles = makeStyles((theme: Theme) => ({
+  icon: {
+    marginTop: theme.spacing(3),
+    cursor: "none",
+  },
+  avatar: {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+
+const App: React.FC = () => {
+  const classes = useStyles();
+  const dispatch: AppDispatch = useDispatch();
+  const editedTask = useSelector(selectEditedTask);
+  const tasks = useSelector(selectTasks);
+  const loginUser = useSelector(selectLoginUser);
+  const profiles = useSelector(selectProfiles);
+
+  const loginProfile = profiles.filter((profile) => profile.user_profile === loginUser.id)[0];
+  console.log(loginProfile);
+
+  const logout = () => {
+    localStorage.removeItem('localJWT');
+    window.location.href = '/';
+  }
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById('imageInput');
+    fileInput?.click();
+  }
+
+  useEffect(() => {
+    const fetchBootLoader = async () => {
+      await dispatch(fetchAsyncGetTasks());
+      await dispatch(fetchAsyncGetMyProfile());
+      await dispatch(fetchAsyncGetUsers());
+      await dispatch(fetchAsyncGetCategory());
+      await dispatch(fetchAsyncGetProfiles());
+    };
+
+    fetchBootLoader();
+  }, [dispatch]);
+
   return (
-    <div className="App">
-      AppComponet
-    </div>
+    <MuiThemeProvider theme={theme}>
+      <div className={styles.app__root}>
+        <Grid container>
+          <Grid item xs={4}>
+            <PolymerIcon className={classes.icon} />
+          </Grid>
+          <Grid item xs={4}>
+            <h1>Scrum Task Board</h1>
+          </Grid>
+          <Grid item xs={4}>
+            <div className={styles.app__logout}>
+              <button className={styles.app__iconLogout} onClick={logout}>
+                <ExitToAppIcon fontSize="large" />
+              </button>
+              <input
+                type="file"
+                id="imageInput"
+                hidden={true}
+                onChange={(e) => {
+                  dispatch(
+                    fetchAsyncUpdateProfile({
+                      id: loginProfile.id,
+                      avatar: e.target.files !== null ? e.target.files[0] : null,
+                    })
+                  );
+                }}
+              />
+              <button className={styles.app__btn} onClick={handleEditPicture}>
+                <Avatar
+                  className={classes.avatar}
+                  alt="avatar"
+                  src={
+                    loginProfile?.avatar !== null ? loginProfile?.avatar : undefined
+                  }
+                />
+              </button>
+            </div>
+          </Grid>
+          <Grid item xs={6}>
+            <TaskList />
+          </Grid>
+          <Grid item xs={6}>
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: "80vh" }}
+            >
+              <Grid item>
+                {editedTask.status ? <TaskForm /> : <TaskDisplay />}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
+    </MuiThemeProvider>
   );
 }
 
