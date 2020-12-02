@@ -115,7 +115,7 @@ const initialState: AuthState = {
     id: 0,
     username: "",
   },
-  profiles: [{ id: 0, userProfile: 0, img: null }],
+  profiles: [{ id: 0, user_profile: 0, img: null }],
 };
 
 export const authSlice = createSlice({

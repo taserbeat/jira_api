@@ -11,7 +11,7 @@ export interface MyAvatar extends Blob {
 
 export interface Profile {
   id: number;
-  userProfile: number;
+  user_profile: number;
   img: string | null;
 }
 
