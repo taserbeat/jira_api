@@ -4,7 +4,7 @@ export interface LoginUser {
   username: string;
 }
 
-export interface Avatar extends Blob {
+export interface MyAvatar extends Blob {
   readonly lastModified: number;
   readonly name: string;
 }
