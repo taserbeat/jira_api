@@ -94,7 +94,7 @@ export const fetchAsyncUpdateProfile = createAsyncThunk(
   "auth/updateProfile",
   async (profile: PostProfile) => {
     const formData = new FormData();
-    profile.img && formData.append("img", profile.img, profile.img.name);
+    profile.avatar && formData.append("avatar", profile.avatar, profile.avatar.name);
     const res = await axios.put<Profile>(
       `${process.env.REACT_APP_API_URL}/api/profile/${profile.id}/`,
       formData,
@@ -115,7 +115,7 @@ const initialState: AuthState = {
     id: 0,
     username: "",
   },
-  profiles: [{ id: 0, user_profile: 0, img: null }],
+  profiles: [{ id: 0, user_profile: 0, avatar: null }],
 };
 
 export const authSlice = createSlice({

@@ -12,12 +12,12 @@ export interface MyAvatar extends Blob {
 export interface Profile {
   id: number;
   user_profile: number;
-  img: string | null;
+  avatar: string | null;
 }
 
 export interface PostProfile {
   id: number;
-  img: File | null;
+  avatar: File | null;
 }
 
 export interface Credential {
@@ -82,4 +82,11 @@ export interface TaskState {
   selectedTask: ReadTask;
   users: User[];
   categories: Category[];
+}
+
+/* TaskList.tsx */
+export interface SortState {
+  rows: ReadTask[];
+  order: "desc" | "asc";
+  activeKey: string;
 }
