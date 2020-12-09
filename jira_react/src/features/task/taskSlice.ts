@@ -207,7 +207,7 @@ export const taskSlice = createSlice({
             (state, action: PayloadAction<Category[]>) => {
                 return {
                     ...state,
-                    category: action.payload,
+                    categories: action.payload,
                 };
             }
         );
@@ -216,7 +216,7 @@ export const taskSlice = createSlice({
             (state, action: PayloadAction<Category>) => {
                 return {
                     ...state,
-                    category: [...state.categories, action.payload],
+                    categories: [...state.categories, action.payload],
                 };
             }
         );
